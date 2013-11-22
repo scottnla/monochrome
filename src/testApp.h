@@ -21,9 +21,9 @@ class testApp : public ofBaseApp{
   void setUniforms(ofShader blurShader);
   
  private:
-  ofShader horizontalBlur;
-  ofShader verticalBlur;
+  ofShader shader;
   ofFbo fbo;
+  ofImage img;
   pingPongBuffer pingPong;
   float width, height;
 };

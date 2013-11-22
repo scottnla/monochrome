@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "pingPong.h"
 
 class testApp : public ofBaseApp{
  public:
@@ -17,10 +18,11 @@ class testApp : public ofBaseApp{
   void windowResized(int w, int h);
   void dragEvent(ofDragInfo dragInfo);
   void gotMessage(ofMessage msg);
-  void setUniforms();
+  void setUniforms(ofShader blurShader);
   
  private:
-  ofShader shader;
+  ofShader horizontalBlur;
+  ofShader verticalBlur;
   ofFbo fbo;
-  float width, height;
+  pingPongBuffer pingPong;
 };

@@ -8,38 +8,36 @@ void testApp::setup(){
     width = ofGetWidth();
     height = ofGetHeight();
     ofBackground(0,0,0);
-    horizontalBlur.load("blur_h");
-    verticalBlur.load("blur_v");
+    img.loadImage("testpattern.gif");
+    shader.load("monochrome");
     fbo.allocate(width,height);
     pingPong.allocate(width, height);
     //draw the original image we care about
     pingPong.src->begin();
-    ofSetColor(255);
-    ofCircle(width/2, height/2, 100, 100);
+    //ofSetColor(255);
+    //ofCircle(width/2, height/2, 100, 100);
+    img.draw(0,0);
     pingPong.src->end();
+
+    //apply shader
+    pingPong.dst->begin();
+    shader.begin();
+    setUniforms(shader);
+    ofRect(0,0,width,height);
+    shader.end();
+    pingPong.dst->end();
+    
+    pingPong.swap();
+
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
-    pingPong.dst->begin();
-    horizontalBlur.begin();
-    setUniforms(horizontalBlur);
-    ofRect(0,0,width,height);
-    horizontalBlur.end();
-    
-    verticalBlur.begin();
-    setUniforms(verticalBlur);
-    ofRect(0,0,width,height);
-    verticalBlur.end();
-    
-    pingPong.dst->end();
-    
-    pingPong.swap();
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
-    pingPong.src->draw(0,0);
+    pingPong.dst->draw(0,0);
 }
 
 //--------------------------------------------------------------
@@ -93,8 +91,7 @@ void testApp::setUniforms(ofShader blurShader){
     float time = ofGetElapsedTimef();
     
     //pass the time, resolution, and source buffer as uniforms to the shader
-    blurShader.setUniform1f("time",time);
-    blurShader.setUniform2fv("resolution",resolution);
     blurShader.setUniformTexture("prevBuffer", pingPong.src->getTextureReference(), 0);
-    blurShader.setUniform1f("blurSize", 1.0);
+    blurShader.setUniform1f("targetHue", 0.5);
+    blurShader.setUniform1f("mixRatio", 0.5);
 }

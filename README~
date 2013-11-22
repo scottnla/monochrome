@@ -1,0 +1,6 @@
+Title: blurTest
+Author: Nathan S Lachenmyer
+Date Started: August 2013
+Last Modified: November 2013
+
+Gaussian blur implemented as a fast box blur fragment shader.  The blur radius is implemented as uniform (blurSize) so that you can set the radius easily.

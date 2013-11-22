@@ -1,0 +1,6 @@
+Title: monochrome
+Author: Nathan S Lachenmyer
+Date Started: November 2013
+Last Modified: November 2013
+
+A shader that takes an image and converts it to a monochrome color palette.
