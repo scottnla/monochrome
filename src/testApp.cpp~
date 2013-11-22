@@ -1,0 +1,89 @@
+#include "testApp.h"
+
+//--------------------------------------------------------------
+void testApp::setup(){
+    ofEnableSmoothing();
+    ofSetFrameRate(10);
+    ofSetVerticalSync(true);
+    width = ofGetWidth();
+    height = ofGetHeight();
+    shader.load("blur_h");
+    fbo.allocate(width,height);
+    fbo.begin();
+    ofSetColor(0);
+    ofCircle(width/2, height/2, 100, 100);
+    ofSetColor(255);
+    fbo.end();
+}
+
+//--------------------------------------------------------------
+void testApp::update(){
+    
+}
+
+//--------------------------------------------------------------
+void testApp::draw(){
+    fbo.begin();
+    shader.begin();
+    setUniforms();
+    ofRect(0,0,width,height);
+    shader.end();
+    fbo.end();
+    
+    fbo.draw(0,0,width,height);
+}
+
+//--------------------------------------------------------------
+void testApp::keyPressed(int key){
+
+}
+
+//--------------------------------------------------------------
+void testApp::keyReleased(int key){
+
+}
+
+//--------------------------------------------------------------
+void testApp::mouseMoved(int x, int y){
+
+}
+
+//--------------------------------------------------------------
+void testApp::mouseDragged(int x, int y, int button){
+
+}
+
+//--------------------------------------------------------------
+void testApp::mousePressed(int x, int y, int button){
+
+}
+
+//--------------------------------------------------------------
+void testApp::mouseReleased(int x, int y, int button){
+
+}
+
+//--------------------------------------------------------------
+void testApp::windowResized(int w, int h){
+
+}
+
+//--------------------------------------------------------------
+void testApp::gotMessage(ofMessage msg){
+
+}
+
+//--------------------------------------------------------------
+void testApp::dragEvent(ofDragInfo dragInfo){ 
+
+}
+
+//--------------------------------------------------------------
+void testApp::setUniforms(){ 
+  float resolution[] = {width, height};
+  float time = ofGetElapsedTimef();
+
+  shader.setUniform1f("time",time);
+  shader.setUniform2fv("resolution",resolution);
+  shader.setUniformTexture("inputBuffer", fbo.getTextureReference(),1);
+}
